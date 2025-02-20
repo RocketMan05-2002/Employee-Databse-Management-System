@@ -1,143 +1,143 @@
-body {
-    font-family: sans-serif;
-    padding: 0 10px;
-  }
-  :root {
-    --btn: #dbdbdb;
-    --btn-hover: #cacaca;
-    --item-bg: #f0f0f0;
-    --modal-bg: rgba(141, 141, 141, 0.541);
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .header > button {
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: none;
-    background-color: var(--btn);
-    cursor: pointer;
-  }
-  .header > button:hover {
-    background-color: var(--btn-hover);
-  }
-  .employees {
-    display: flex;
-    gap:10px;
-  }
-  .employees > div {
-    border: 1px solid black;
-    overflow-y: scroll;
-    height: 450px;
-  }
-  .employees__names {
-    width: 30%;
-  }
-  .employees__single {
-    width: 70%;
-  }
-  .employees__names,
-  .employees__single {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .employees__names--title,
-  .employees__single--title {
-    padding-bottom: 10px;
-    margin-bottom: 5px;
-    text-align: center;
-    border-bottom: 1px solid black;
-  }
+body{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  padding: 0 10px;
+}
+:root{
+  --btn:#dbdbdb;
+  --btn-hover: #cacaca;
+  --item-bg: #f0f0f0;
+  --modal-bg: rgba(141,141,141,0.541);
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header>button{
+  padding: 10px 15px;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--btn);
+  cursor: pointer;
+}
+.header>button:hover{
+  background-color: var(--btn-hover);
+}
+.employees{
+  display: flex;
+  gap: 10px;
+}
+.employees>div{
+  border: 1px solid black;
+  overflow-y: scroll;
+  height: 450px;
+}
+.employees__names{
+  width: 30%;
+}
+.employees__single{
+  width: 70%;
+}
+.employees__names, .employees__single{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.employees__names--title, .employees__single--title{
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.employees__names--list{
+  display: flex;
+  flex-direction: column;
+}
+.employee__names--item{
+  cursor: pointer;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+  text-align: center;
+  background-color: var(--btn);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.employee__names--item:hover{
+  background-color: #818181;
+}
+.selected{
+  background-color: #818181;
+  color: white;
+}
 
-  .employee__names--list{
-    display: flex;
-    flex-direction: column;
-  }
-  .employee__names--item{
-    cursor: pointer;
-    padding: 10px 15px;
-    margin-bottom: 5px;
-    text-align: center;
-    background-color: var(--item-bg);
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .employee__names--item:hover, .selected{
-    background-color: var(--btn);
-  }
+/* Render all Employees - END */
 
-  /* for single employee */
-  
-  .employee__single--info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .employee__single--info>img{
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
-    border-radius: 50%;
-  }
-  .employees__single--heading{
-    text-align:center;
-    font-size: 25px;
-    text-transform: uppercase;
-    padding: 5px;
-  }
+/* Render Single Employee - START */
 
-  /* styles to add employee */
+.employees__single--heading{
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  padding: 5px;
+}
+.employees__single--info>img{
+  height: 250px;
+  width: 250px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.employees__single--info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+}
 
-  .addEmployee{
-        display: none;
-        width: 100%;
-        height:100%;
-        position: absolute;
-        top:0;
-        left:0;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--modal-bg);
-    }
+/* Render Single Employee - END */
 
-    .addEmployee_create{
-        width: 400px;
-        background-color: white;
-        box-shadow: 0px 0px 50px grey;
-        padding: 20px;
-        border-radius: 5px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+/* Add Employee - START */
 
-    .addEmployee_create > div{
-        display: grid;
-        grid-template-columns: 48.1% 48.1%;
-        column-gap: 15px;
-    }
-    .addEmployee_create input{
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: 1px solid rgb(236,236,236);
-    }
-
-    .addEmployee_create--submit{
-        padding: 10px !important;
-        border-radius: 5px;
-        border: none;
-        background-color: var(--btn);
-        cursor: pointer;
-    }
-    .addEmployee_create--submit:hover{
-        background-color: var(--btn-hover);
-    }
+.addEmployee{
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--modal-bg);
+}
+.addEmployee_create{
+  width: 400px;
+  background-color: white;
+  box-shadow: 0px 0px 50px grey;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.addEmployee_create>div{
+  display: grid;
+  grid-template-columns: 48.1% 48.1%;
+  column-gap: 15px;
+}
+.addEmployee_create input{
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(236,236,236);
+}
+.addEmployee_create--submit{
+  background-color: var(--btn);
+  padding: 10px !important;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.addEmployee_create--submit:hover{
+  background-color: #818181;
+}

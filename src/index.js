@@ -1,65 +1,42 @@
-/*
-In JavaScript, IIFE stands for "Immediately Invoked Function Expression". 
-It's a function that runs as soon as it's defined. IIFEs are useful for creating private scopes, 
-encapsulating variables, and more.
-*/
+// executing IIFE immidiately invoked function expression
 
-// (async function () {
-
-//     const response = await fetch('./src/data.json');
-//     const data = await response.json();
-//     console.log(data);
-//     let employees = data;
-//     let selectedEmployeeId = employees[0].id;
-//     let selectedEmployee = employees[0];
-
-//     const employeeList = document.querySelector('.employee__names--list');
-//     const employeeInfo = document.querySelector('.employee__single--info');
-
-//     // render employees.
-//     const renderEmployees = () =>{
-//         employeeList.innerHTML = "";
-//         employees.forEach((emp) => {
-//             const employee = document.createElement("span");
-//             employee.classList.add("employee__names--item");
-//             if(parseInt(selectedEmployeeId,10)===emp.id){
-//                 employee.classList.add("selected");
-//                 selectedEmployee = emp;
-//             }
-//             employee.setAttribute("id",emp.id);
-//             employee.innerHTML = `${emp.firstName} ${emp.lastName} <i class="employeeDe">&times;</i>`
-//             employeeList.append(employee);
-//         });
-//     };
-
-//     renderEmployees();
-// })();
-
-(async function() {
+(async function(){
     const response = await fetch('./src/data.json');
-    const data = await response.json();
+    const data= await response.json();
     console.log(data);
-
     let employees = data;
     let selectedEmployeeId = employees[0].id;
     let selectedEmployee = employees[0];
 
-    const employeeList = document.querySelector('.employee__names--list');
-    const employeeInfo = document.querySelector('.employee__single--info');
+    const employeeList = document.querySelector('.employees__names--list');
+    const employeeInfo = document.querySelector('.employees__single--info');
 
-    // select employee Logic
+
+    //selected employee Logic and deleting
     employeeList.addEventListener("click",(e)=>{
-        if(e.target.tagName === 'SPAN' && selectedEmployeeId !== e.target.id) {
+        if(e.target.tagName==="SPAN" && selectedEmployeeId !== e.target.id){
             selectedEmployeeId = e.target.id;
             renderEmployees();
             renderSingleEmployee();
         }
+
+        //deleting employee
+        if(e.target.tagName === "I"){
+            employees = employees.filter((emp)=>String(emp.id)!==e.target.parentNode.id);
+            if(String(selectedEmployeeId===e.target.parentNode.id)){
+                selectedEmployeeId = employees[0].id || -1;
+                selectedEmployee = employees[0]|| {};
+                renderSingleEmployee();
+                renderEmployees();
+            }
+        }
     })
 
-    //Add employee logic
-    const createEmployee = document.querySelector(".createEmployee");
-    const addEmployeeModal = document.querySelector(".addEmployee");
-    const addEmployeeForm = document.querySelector(".addEmployee_create");
+    // add employee Logic
+    
+    const createEmployee = document.querySelector('.createEmployee');
+    const addEmployeeModal = document.querySelector('.addEmployee');
+    const addEmployeeForm = document.querySelector('.addEmployee_create');
 
     createEmployee.addEventListener("click",()=>{
         addEmployeeModal.style.display = "flex";
@@ -68,10 +45,21 @@ encapsulating variables, and more.
         if(e.target.className === "addEmployee"){
             addEmployeeModal.style.display = "none";
         }
-    });
+    })
+    
+    const dobInput = document.querySelector('.addEmployee_create--dob');
+    dobInput.max = `${
+        new Date().getFullYear()-18
+    }-${new Date().toISOString().slice(5,10)}`;
+    
+    // 1.	new Date().getFullYear() → 2025
+	// 2.	2025 - 18 → 2007 (Ensuring the user is at least 18)
+	// 3.	new Date().toISOString().slice(5,10) → "02-20" (Extracts MM-DD)
+    // new Date().toISOString().slice(5,10)
+	// •	Converts the current date into an ISO string (which looks like "2025-02-20T...").
+	// •	Extracts only the month and day part ("02-20").
+	// 4.	The final max value: dobInput.max = "2007-02-20";
 
-    const dobInput  = document.querySelector(".addEmployee_create--dob");
-    dobInput.ax = `${new Date().getFullYear()-18}`;
 
 
     addEmployeeForm.addEventListener("submit",(e)=>{
@@ -79,31 +67,44 @@ encapsulating variables, and more.
         const formData = new FormData(addEmployeeForm);
         const values = [...formData.entries()];
         console.log(values);
-        let empData = {}
+        let empData = {};
         values.forEach((val)=>{
-            empData[val[0]] =val[1];
+            empData[val[0]] = val[1]
         })
-        empData.id = employees[employees.length-1].id+1;
+        empData.id = employees[employees.length-1].id +1;
+        empData.age = new Date().getFullYear() - parseInt(empData.dob.slice(0,4),10);
+        empData.imageUrl = empData.imageUrl || "https://cdn-icons-png.flaticon.com/512/0/93.png";
+        employees.push(empData);
+        renderEmployees();
+        addEmployeeForm.reset();
+        addEmployeeModal.style.display = "none";
     })
 
-    const renderEmployees = () =>{
+
+    // function to render the employees
+    const renderEmployees= () =>{
         employeeList.innerHTML = ""
         employees.forEach((emp)=>{
             const employee = document.createElement("span");
             employee.classList.add("employee__names--item");
-            if(parseInt(selectedEmployeeId,10) === emp.id){
+            if(parseInt(selectedEmployeeId,10)===emp.id){
                 employee.classList.add("selected");
-                selectedEmployee = emp;
+                selectedEmployee=emp;
             }
             employee.setAttribute("id",emp.id);
             employee.innerHTML = `${emp.firstName} ${emp.lastName} <i class="deleteEmployee">❌</i>`;
             employeeList.append(employee);
         })
-    };
+    }
 
-    //render single Employee
-
+    // render single employee
     const renderSingleEmployee = () =>{
+
+        if(selectedEmployeeId === -1){
+            employeeInfo.innerHTML = ""
+            return;
+        }
+
         employeeInfo.innerHTML = `
         <img src="${selectedEmployee.imageUrl}" />
         <span class="employees__single--heading">
@@ -112,7 +113,7 @@ encapsulating variables, and more.
         <span>${selectedEmployee.address}</span>
         <span>${selectedEmployee.email}</span>
         <span>Mobile - ${selectedEmployee.contactNumber}</span>
-        <span>DOB - ${selectedEmployee.dob}</span>
+        <span>DoB - ${selectedEmployee.dob}</span>
         `
     }
 
