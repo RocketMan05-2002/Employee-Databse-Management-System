@@ -24,7 +24,7 @@
         if(e.target.tagName === "I"){
             employees = employees.filter((emp)=>String(emp.id)!==e.target.parentNode.id);
             if(String(selectedEmployeeId===e.target.parentNode.id)){
-                selectedEmployeeId = employees[0].id || -1;
+                selectedEmployeeId = employees.length > 0 ? employees[0].id : -1;
                 selectedEmployee = employees[0]|| {};
                 renderSingleEmployee();
                 renderEmployees();
